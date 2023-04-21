@@ -26,4 +26,8 @@ def new_game():
     game = BoggleGame()
     games[game_id] = game
 
-    return {"gameId": f"{game_id}", "board": f"{}"}
+    response = {"gameId": f"{game_id}", "board": game}
+    json_response = jsonify(response)
+    print("json_response=", json_response)
+
+    return json_response
