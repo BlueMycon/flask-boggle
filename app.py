@@ -25,24 +25,23 @@ def new_game():
     game_id = str(uuid4())
     game = BoggleGame()
     games[game_id] = game
+    print("game_id=",game_id)
 
-        return jsonify({"gameId": game_id, "board": game.board})
+    return jsonify({"gameId": game_id, "board": game.board})
 
 @app.post("/api/score-word")
 def score_word():
     """score a word"""
     json_info = request.json
-    game_id = json_info["gameId"]
+    game_id = str(json_info["gameId"])
     game_word = json_info["word"]
+    game = games[game_id]
 
-    #cycle through game.word_list checking to see if word is in list
-        #if not n list, return
-        if not game.is_word_in_word_list(game_word):
-            return jsonify({result: "not-word"})
-        elif not game.check_word_on_board
-
-
-
-
-
-
+    # cycle through game.word_list checking to see if word is in list
+    # if not n list, return
+    if not game.is_word_in_word_list(game_word):
+        return jsonify({"result": "not-word"})
+    elif not game.check_word_on_board(game_word):
+        return jsonify({"result": "not-on-board"})
+    else:
+        return jsonify({"result": "ok"})
