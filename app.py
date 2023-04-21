@@ -32,7 +32,7 @@ def new_game():
 @app.post("/api/score-word")
 def score_word():
     """score a word"""
-    json_info = request.json
+    json_info = request.get_json()
     game_id = str(json_info["gameId"])
     game_word = json_info["word"]
     game = games[game_id]
