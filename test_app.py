@@ -53,28 +53,32 @@ class BoggleAppTestCase(TestCase):
 
             # make a post request to /api/new-game
             resp = client.post('/api/new-game')
+            
             # get the response body as json using .get_json()
             data = resp.get_json()
+
             # find that game in the dictionary of games (imported from app.py above)
             game_id = data["gameId"]
             game = games[game_id]
-            print(game.board)
+
             # manually change the game board's rows so they are not random
-            game.board =  [['g','c','a','t','x'],
-                          ['z','z','z','z','z'],
-                          ['z','z','z','z','z'],
-                          ['z','z','z','z','z'],
-                          ['z','z','z','z','z']]
+            game.board =  [['G','C','A','T','X'],
+                          ['Z','Z','Z','Z','Z'],
+                          ['Z','Z','Z','Z','Z'],
+                          ['Z','Z','Z','Z','Z'],
+                          ['Z','Z','Z','Z','Z']]
+
             # test to see that a valid word on the altered board returns {'result': 'ok'}
-            resp_score_word = client.post('/api/score-word', json={"gameId": game_id, "word": "cat"})
+            resp_score_word = client.post('/api/score-word', json={"gameId": game_id, "word": "CAT"})
             data = resp_score_word.get_json()
-            print("data is=", data)
             self.assertEqual({'result': 'ok'}, data)
+
             # test to see that a valid word not on the altered board returns {'result': 'not-on-board'}
-            resp_score_word = client.post('/api/score-word', json={"gameId": game_id, "word": "henry"})
+            resp_score_word = client.post('/api/score-word', json={"gameId": game_id, "word": "HENRY"})
             data = resp_score_word.get_json()
             self.assertEqual({'result': 'not-on-board'}, data)
+
             # test to see that an invalid word returns {'result': 'not-word'}
-            resp_score_word = client.post('/api/score-word', json={"gameId": game_id, "word": "henryyy"})
+            resp_score_word = client.post('/api/score-word', json={"gameId": game_id, "word": "HENRYYYY"})
             data = resp_score_word.get_json()
             self.assertEqual({'result': 'not-word'}, data)
