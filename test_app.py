@@ -22,9 +22,11 @@ class BoggleAppTestCase(TestCase):
         """Make sure information is in the session and HTML is displayed"""
 
         with self.client as client:
-            response = client.get('/')
-            ...
+            resp = client.get('/')
+            html = resp.get_data(as_text=True)
             # test that you're getting a template
+            self.assertEqual(resp.status_code, 200)
+            self.assertIn("Homepage", html)
 
     def test_api_new_game(self):
         """Test starting a new game."""
