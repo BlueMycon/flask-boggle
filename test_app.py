@@ -40,9 +40,9 @@ class BoggleAppTestCase(TestCase):
             self.assertEqual(type(game_id), str)
             # test that the board is a list
             self.assertEqual(type(json_data["board"]), list)
-            # board = json_data["board"]
-            # for row in board:
-            #     self.assertEqual(type(row), list)
+            board = json_data["board"]
+            for row in board:
+                self.assertEqual(type(row), list)
             # test that the game_id is in the dictionary of games (imported from app.py above)
             self.assertIn(game_id, games)
 
@@ -53,7 +53,7 @@ class BoggleAppTestCase(TestCase):
 
             # make a post request to /api/new-game
             resp = client.post('/api/new-game')
-            
+
             # get the response body as json using .get_json()
             data = resp.get_json()
 
