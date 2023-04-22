@@ -36,4 +36,29 @@ function displayBoard(board) {
   }
 }
 
+
+async function handleWordInput(evt) {
+  evt.preventDefault();
+
+  const word = $wordInput.val().toUpperCase();
+  console.log("word=", word);
+  const response = await axios.post(
+    "/api/score-word",
+    { gameId, word }
+  );
+  const result = response.data.result;
+  console.log("result=", result);
+
+  if (result === "not-word") {
+    $message.text("Not a valid word!");
+  } else if (result === "not-on-board") {
+    $message.text("Your word is not on the board");
+  } else {
+    $message.text("Score!");
+    $playedWords.append($(`<li>${word}</li>`));
+  }
+}
+
+$form.on("submit", handleWordInput)
+
 start();
